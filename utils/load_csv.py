@@ -1,5 +1,6 @@
 import pandas as pd
 
-def load_csv(path: str):
-    df = pd.read_csv(path)
+def load_csv(path: str, columns):
+    df = pd.read_csv(path, names=columns)
+    # df.index.name = "Index"
     return df
