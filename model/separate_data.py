@@ -24,3 +24,7 @@ class Separate_Data:
 
     def clean_data(self):
         del(self.df["Id"])
+        self.df["Diagnosis"].replace(['M', 'B'], [0, 1], inplace=True)
+
+    def get_df(self):
+        return self.df
