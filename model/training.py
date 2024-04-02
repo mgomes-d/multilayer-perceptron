@@ -1,4 +1,0 @@
-
-
-class training_data:
-    
