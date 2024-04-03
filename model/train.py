@@ -28,6 +28,9 @@ class layers:
 
 class model:
     def __init__(self, df):
+
+        self.parse_data(df)
+
         self.network = []
         self.data_train = {}
         self.data_valid = {}
@@ -35,6 +38,15 @@ class model:
         self.learning_rate = 0
         self.batch_size = 0
         self.epochs = 0
+
+    def parse_data(self, data):
+        data_predict = data.select_dtypes(include=[object])
+        first_value = ""
+        second_value = ""
+        assert len(data_predict.columns) == 1, "Need only 1 object type to predict"
+        for (key, value) in data_predict.items():
+            print(value)
+
 
     def make_mean_std(self, data):
         self.mean = {}
@@ -62,5 +74,7 @@ class model:
         self.make_mean_std(data_train)
         self.normalize_data(data_train)
         self.normalize_data(data_valid)
+        self.parse_data(self.data_train)
+        self.parse_data(self.data_valid)
 
 
