@@ -27,5 +27,40 @@ class layers:
 
 
 class model:
-    def __init__():
-        print("gello")
+    def __init__(self, df):
+        self.network = []
+        self.data_train = {}
+        self.data_valid = {}
+        self.loss = ""
+        self.learning_rate = 0
+        self.batch_size = 0
+        self.epochs = 0
+
+    def make_mean_std(self, data):
+        self.mean = {}
+        self.std = {}
+        for column_name, content in data.select_dtypes(include=[float]).items():
+            self.mean[column_name] = content.values.sum() / len(content.values)
+            self.std[column_name] = (content.map(lambda x: (x - self.mean[column_name])**2).sum() / len(content.values))**0.5
+
+    def normalize_data(self, data):
+        for column_name, content in data.select_dtypes(include=[float]).items():
+            data[column_name] = content.map(lambda x: (x - self.mean[column_name]) / self.std[column_name])
+
+    def init_values(self, network, data_train, data_valid, loss, learning_rate, batch_size, epochs):
+        self.network = network
+        self.data_train = data_train
+        self.data_valid = data_valid
+        self.loss = loss
+        self.learning_rate = learning_rate
+        self.batch_size = batch_size
+        self.epochs = epochs
+
+
+    def fit(self, network, data_train, data_valid, loss, learning_rate, batch_size, epochs):
+        self.init_values(network, data_train, data_valid, loss, learning_rate, batch_size, epochs)
+        self.make_mean_std(data_train)
+        self.normalize_data(data_train)
+        self.normalize_data(data_valid)
+
+
