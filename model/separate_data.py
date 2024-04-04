@@ -1,11 +1,11 @@
-from utils.load_csv import load_csv
+from utils.load_csv import load_csv_columns
 from utils.create_csv import create_csv
 
 
 class Separate_Data:
     def __init__(self, path):
         columns = self.create_columns()
-        self.df = load_csv(path, columns)
+        self.df = load_csv_columns(path, columns)
 
     def create_columns(self):
         columns = ["Id", "Diagnosis"]
