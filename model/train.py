@@ -28,9 +28,6 @@ class layers:
 
 class model:
     def __init__(self, df):
-
-        self.parse_data(df)
-
         self.network = []
         self.data_train = {}
         self.data_valid = {}
@@ -39,13 +36,39 @@ class model:
         self.batch_size = 0
         self.epochs = 0
 
-    def parse_data(self, data):
+        self.first_predict = "" # replace to 0
+        self.second_predict = "" # replace to 1
+        self.Y_train = {}
+        self.Y_valid = {}
+        self.X_train = {}
+        self.X_valid = {}
+
+    def get_predict_values(self, data):
         data_predict = data.select_dtypes(include=[object])
-        first_value = ""
-        second_value = ""
         assert len(data_predict.columns) == 1, "Need only 1 object type to predict"
         for (key, value) in data_predict.items():
-            print(value)
+            for i, content in enumerate(value.values):
+                if not self.first_predict:
+                    self.first_predict = content
+                if not self.second_predict and content != self.first_predict:
+                    self.second_predict = content
+                if self.first_predict and self.second_predict and content != self.first_predict and content != self.second_predict:
+                    raise Exception("More than 2 values to predict")
+
+    def parse_data(self, data, train_data=False):
+        assert self.Y_train is True and self.X_train is True \
+        and self.Y_valid is True and self.X_valid is True, \
+        "X or Y _train and X or Y _valid need to be empty"
+        if train_data is True:
+            self.Y_train = data.select_dtypes(include=[object])
+            assert len(data_predict.columns) == 1, "Need only 1 object type to predict"
+            self.X_train = data.select_dtypes(exclude=[object])
+            self.Y_train.replace([self.first_predict, self.second_predict], [0, 1])
+        else:
+            self.Y_valid = data.select_dtypes(include=[object])
+            assert len(data_predict.columns) == 1, "Need only 1 object type to predict"
+            self.X_valid = data.select_dtypes(exclude=[object])
+            self.Y_valid.replace([self.first_predict, self.second_predict], [0, 1])
 
 
     def make_mean_std(self, data):
@@ -74,7 +97,8 @@ class model:
         self.make_mean_std(data_train)
         self.normalize_data(data_train)
         self.normalize_data(data_valid)
-        self.parse_data(self.data_train)
+        self.get_predict_values(self.data_train)
+        self.parse_data(self.data_train, True)
         self.parse_data(self.data_valid)
 
 
