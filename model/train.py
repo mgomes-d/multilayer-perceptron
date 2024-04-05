@@ -35,7 +35,7 @@ class model:
         self.learning_rate = 0
         self.batch_size = 0
         self.epochs = 0
-        
+
         self.mean = {}
         self.std = {}
 
@@ -96,7 +96,7 @@ class model:
 
     def fit(self, network, data_train, data_valid, loss, learning_rate, batch_size, epochs):
         self.init_values(network, data_train, data_valid, loss, learning_rate, batch_size, epochs)
-        self.make_mean_std(data_train)
+        self.make_mean_std(self.data_train)
         self.normalize_data(self.data_train)
         self.normalize_data(self.data_valid)
         self.get_predict_values(self.data_train)
