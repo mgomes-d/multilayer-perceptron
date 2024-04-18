@@ -1,43 +1,51 @@
-# from model.separate_data import Separate_Data
-# from graphs.scatter_plot import scatter_plot
-# from graphs.histogram import histogram
-# from graphs.pair_plot import pair_plot
-# from model.train import layers
-# from model.train import model
-# from utils.load_csv import load_csv
+from model.separate_data import Separate_Data
+from graphs.scatter_plot import scatter_plot
+from graphs.histogram import histogram
+from graphs.pair_plot import pair_plot
+from model.train import layers
+from model.train import model
+from utils.load_csv import load_csv
 
-import numpy as np
 def main():
-    # try:
-    #     # # Separate Data ans clean data
-    #     # separate_data = Separate_Data("datasets/data.csv")
-    #     # separate_data.clean_data() # 0 = Malignant, 1 = Bening
-    #     # separate_data.divide_data(0.80)
-    #     # separate_data.create_files("datasets")
+    try:
+        # # Separate Data ans clean data
+        # separate_data = Separate_Data("datasets/data.csv")
+        # separate_data.clean_data() # 0 = Malignant, 1 = Bening
+        # separate_data.divide_data(0.80)
+        # separate_data.create_files("datasets")
 
-    #     # df = separate_data.get_df().drop("Diagnosis", axis=1, inplace=False)
-    # #    #Analyse the data
-    # #     # scatter_plot(df)
-    # #     # histogram(df)
-    # #     # pair_plot(separate_data.get_df())
-
-
-
-    #     #Train data
-    #     # layer = layers()
-    #     # layer.DenseLayer(4, "sigmoid", "init")
-    #     # df = separate_data.get_df()
-    #     test_data = load_csv("datasets/test_data.csv")
-    #     train_data = load_csv("datasets/train_data.csv")
-    #     model_test = model()
-    #     # print(test_data)
-    #     model_test.fit(None, train_data, test_data, loss='binaryCrossentropy', learning_rate=0.0314, batch_size=8, epochs=84)
+        # df = separate_data.get_df().drop("Diagnosis", axis=1, inplace=False)
+    #    #Analyse the data
+    #     # scatter_plot(df)
+    #     # histogram(df)
+    #     # pair_plot(separate_data.get_df())
 
 
-    # except Exception as error:
-    #     print("Error:", error)
-    print(np.maximum(0, 31))
-    print(np.tanh(31))
+
+        #Train data
+        # layer = layers()
+        # layer.DenseLayer(4, "sigmoid", "init")
+        # df = separate_data.get_df()
+        test_data = load_csv("datasets/test_data.csv")
+        train_data = load_csv("datasets/train_data.csv")
+        model_test = model()
+        layers_test = layers()
+        # print(test_data)
+        input_shape = 5
+        output_shape = 2
+        network = model.createNetwork([
+            layers_test.DenseLayer(input_shape, activation='sigmoid'),
+            layers_test.DenseLayer(24, activation='sigmoid', weights_initializer='heUniform'),
+            layers_test.DenseLayer(24, activation='sigmoid', weights_initializer='heUniform'),
+            layers_test.DenseLayer(24, activation='sigmoid', weights_initializer='heUniform'),
+            layers_test.DenseLayer(output_shape, activation='softmax', weights_initializer='heUniform')
+        ])
+
+        # model_test.fit(None, train_data, test_data, loss='binaryCrossentropy', learning_rate=0.0314, batch_size=8, epochs=84)
+
+
+    except Exception as error:
+        print("Error:", error)
 
 
 if __name__ == "__main__":

@@ -15,8 +15,8 @@ class Separate_Data:
 
     def divide_data(self, train_data):
         train_value = int(len(self.df) * train_data)
-        self.train_df = self.df[:train_value]
-        self.test_df = self.df[train_value:]
+        self.train_df = self.df.loc[:train_value - 1].copy()
+        self.test_df = self.df.loc[train_value:].copy()
 
     def create_files(self, path):
         create_csv(f'{path}/train_data.csv', self.train_df)

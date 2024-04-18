@@ -33,13 +33,14 @@ class layers:
     def __init__(self):
         self.layers = []
 
-    def DenseLayer(self, nb_perceptron, activation, weights_initializer):
-        perceptrons = []
-        weights_init = self.init_weights(weights_initializer, nb_perceptron)
-        for i in range(nb_perceptron):
-            perceptrons.append(perceptron(i, weights_init, activation))
-        self.layers.append(perceptrons)
-        print(self.layers)
+    def DenseLayer(self, nb_perceptron, activation, weights_initializer=""):
+        # perceptrons = []
+        # weights_init = self.init_weights(weights_initializer, nb_perceptron)
+        # for i in range(nb_perceptron):
+            # perceptrons.append(perceptron(i, weights_init, activation))
+        # self.layers.append(perceptrons)
+        return "test"
+        # print(self.layers)
 
     def init_weights(self, weights_initializer, nbs):
         weights = self.get_weights_initializer_function(weights_initializer)
@@ -106,14 +107,14 @@ class model:
         and self.Y_valid is not True and self.X_valid is not True, \
         "X or Y _train and X or Y _valid need to be empty"
         if train_data is True:
-            self.Y_train = data.select_dtypes(include=[object])
+            self.Y_train = data.select_dtypes(include=[object]).copy()
             assert len(self.Y_train.columns) == 1, "Need only 1 object type to predict, parse_data: train_data"
             self.X_train = data.select_dtypes(exclude=[object])
             self.Y_train.replace([self.first_predict, self.second_predict], [0, 1], inplace=True)
         else:
-            self.Y_valid = data.select_dtypes(include=[object])
+            self.Y_valid = data.select_dtypes(include=[object]).copy()
             assert len(self.Y_valid.columns) == 1, "Need only 1 object type to predict, parse_data: valid_data"
-            self.X_valid = data.select_dtypes(exclude=[object])
+            self.X_valid = data.select_dtypes(exclude=[object]).copy()
             self.Y_valid.replace([self.first_predict, self.second_predict], [0, 1], inplace=True)
 
 
@@ -128,8 +129,8 @@ class model:
 
     def init_values(self, network, data_train, data_valid, loss, learning_rate, batch_size, epochs):
         self.network = network
-        self.data_train = data_train
-        self.data_valid = data_valid
+        self.data_train = data_train.copy()
+        self.data_valid = data_valid.copy()
         self.loss = loss
         self.learning_rate = learning_rate
         self.batch_size = batch_size
@@ -143,3 +144,8 @@ class model:
 
     def fit(self, network, data_train, data_valid, loss, learning_rate, batch_size, epochs):
         self.init_values(network, data_train, data_valid, loss, learning_rate, batch_size, epochs)
+        self.create_layers()
+
+    def createNetwork(layers):
+        print("createNetwork", layers)
+
